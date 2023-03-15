@@ -1,0 +1,7 @@
+{
+  "name": "contriverzTest",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
