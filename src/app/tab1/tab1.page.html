@@ -1,17 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <form [formGroup]="searchForm" (ngSubmit)="search_products(searchForm.value)">
+      <ion-searchbar formControlName="search_keyword" (ionChange)="search_products(searchForm.value)" placeholder="Search products" style="margin-top: 12px;"></ion-searchbar>
+      <!-- <ion-button *ngIf="search_keyword != ''" (click)="search_products()">Seach now!</ion-button> -->
+      <!-- <p>press</p> -->
+    </form>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content>
+  <ion-list-header>Products <span>({{products.length}})</span></ion-list-header>
+    <ion-list *ngIf="products.length > 0">
+      
+      <ng-container *ngFor="let item of products; let i = index" >
+        <ion-item [ngClass]="(item.is_match == false) ? 'hide' : 'show'">
+          <ion-avatar>
+            <ion-img alt={{item.title}} src={{item.thumbnail}} />
+          </ion-avatar>
+          <ion-label>
+            <h4>{{item.title}}</h4>
+            <p>{{item.category}}</p>
+            <p>Created: {{item.date | custom}}</p>
+          </ion-label>
+          <ion-icon name="create" (click)="edit_product(i)" slot="end" ></ion-icon>
+          <ion-icon name="trash" (click)="delete_confirmation(i)" slot="end" ></ion-icon>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  <!-- <app-single-product></app-single-product> -->
 </ion-content>
